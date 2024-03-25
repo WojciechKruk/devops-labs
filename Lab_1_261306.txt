@@ -1,0 +1,13 @@
+docker run -p 8001:8000 --name python backend
+
+docker run --name mongo --network siec_wk -d mongo
+
+docker run --name backend --network siec_wk -d backend
+
+docker network inspect siec_wk
+
+docker volume create mongo_volumen
+
+docker run -e "DATABASE_URL=mongodb://<backend>:27017" backend
+
+docker run -d --name backend_v2 -v mongodb_volumen:/app mongo
