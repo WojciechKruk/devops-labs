@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-configmap
+data:
+  logging: INFO
+  database_link: "mongodb://mongo:27017/db"
