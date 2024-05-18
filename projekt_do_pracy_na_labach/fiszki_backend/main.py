@@ -39,6 +39,8 @@ async def check_if_is_alive():
     return {"message": "Connected to API"}
 
 
+
+
 @app.get("/")
 def redirect_docs():
     LOGGER.info("Redirected response.")

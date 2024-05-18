@@ -19,11 +19,30 @@ spec:
         image: backend:latest
         imagePullPolicy: Never
         ports:
-        - containerPort: 80
+        - containerPort: 8000
         volumeMounts:
         - mountPath: /data/logs
           name: backend-logs
+        livenessProbe:
+          httpGet:
+            path: /isAlive
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /isReady
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 20
       volumes:
       - name: backend-logs
         persistentVolumeClaim:
-          claimName: pvc-backend 
+          claimName: pvc-backend
+      initContainers:
+      - name: check-data
+        image: busybox:latest
+        command: ['sh', '-c', 'if [ -e /data/db ]; then cp -r /data/db /data/logs; echo "Data copied"; else echo "No data to copy"; fi']
+        volumeMounts:
+        - name: backend-logs
+          mountPath: /data/logs
