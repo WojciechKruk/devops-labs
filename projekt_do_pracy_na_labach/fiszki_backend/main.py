@@ -39,6 +39,11 @@ async def check_if_is_alive():
     return {"message": "Connected to API"}
 
 
+@app.get("/isReady")
+async def check_if_is_ready():
+    LOGGER.info("Readiness check done")
+    return {"message": "API is ready"}
+
 
 
 @app.get("/")
